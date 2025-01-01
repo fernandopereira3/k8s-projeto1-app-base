@@ -1,0 +1,16 @@
+FROM php:7.4-apache
+
+WORKDIR /var/www/html/
+COPY conexao.php /var/www/html/
+COPY index.html /vaar/www/html/
+
+RUN apt -y update && apt -y install \
+      libfreetype6-dev \
+      libjpe62-turbo-dev \
+      libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install mysqli
+
+EXPOSE 80
